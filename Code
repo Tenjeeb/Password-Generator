@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#Function to generate random password
+generate_password() {
+local password_length=$1  #Accept the length of the password as first argument
+
+#Generate password using /dev/urandom, filter out unwanted characters and limit length
+password=$(head /dev/urandom | tr -dc 'a-zA-Z0-9!@#$%^&*()_+=' | head -c "$password_length")
+echo "$password"
+}
+
+#Main script is here
+echo "This is a password Generator"
+
+#Prompt user for password length
+read -p "Enter the desired password length:" length
+
+#Check if input is a vlaid integar
+if ! [[ $length =~ ^[1-9][0-9]*$ ]]; then
+echo "Invalid input. Please enter a valid positive integer."
+exit 1
+fi
+
+#Generate and display password
+echo "Generated password:"
+generate_password "$length"
